@@ -1,0 +1,29 @@
+@startuml
+
+class Key{
+    AnnotationStrategy annotationStrategy
+    getAnnotation()
+}
+
+
+interface AnnotationStrategy{
+    Annotation getAnnotation()
+}
+
+class AnnotationInstanceStrategy
+class AnnotationTypeStrategy
+enum NullAnnotationStrategy
+
+note left of Key::getAnnotation
+  annotationStrategy.getAnnotation()
+end note
+Key o--right--> AnnotationStrategy
+
+
+AnnotationStrategy <|-- AnnotationInstanceStrategy
+AnnotationStrategy <|-- AnnotationTypeStrategy
+AnnotationStrategy <|-- NullAnnotationStrategy
+
+
+
+@enduml
