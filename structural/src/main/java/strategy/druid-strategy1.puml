@@ -1,0 +1,28 @@
+@startuml
+
+interface QueryWatcher{
+registerQueryFuture(Query<?> query, ListenableFuture<?> future)
+}
+
+class QueryScheduler implements QueryWatcher{
+QueryLaningStrategy laningStrategy
+}
+
+'QueryWatcher <|-- QueryScheduler
+
+interface QueryLaningStrategy{
+    Object2IntMap<String> getLaneLimits(int totalLimit)
+    <T> Optional<String> computeLane(QueryPlus<T> query, Set<SegmentServerSelector> segments)
+}
+
+'QueryLaningStrategy <|-- NoQueryLaningStrategy
+'QueryLaningStrategy <|-- HiLoQueryLaningStrategy
+'QueryLaningStrategy <|-- ManualQueryLaningStrategy
+
+class NoQueryLaningStrategy implements QueryLaningStrategy
+class HiLoQueryLaningStrategy implements QueryLaningStrategy
+class ManualQueryLaningStrategy implements QueryLaningStrategy
+
+QueryScheduler o--right--> QueryLaningStrategy:laningStrategy
+
+@enduml
