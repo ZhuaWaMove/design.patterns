@@ -1,6 +1,7 @@
 package strategy;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 
 /**
  * @ClassName Context
@@ -13,6 +14,7 @@ public class Context {
     private IStrategy strategy;
 
     public void setStrategy(IStrategy strategy) {
+
         this.strategy = strategy;
     }
 

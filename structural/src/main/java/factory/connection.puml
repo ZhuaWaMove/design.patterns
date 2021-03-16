@@ -1,0 +1,34 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface ConnectionFactory{
+   Connection createConnection()
+}
+
+class DataSourceConnectionFactory implements ConnectionFactory
+class DataSourceXAConnectionFactory implements ConnectionFactory
+class DriverConnectionFactory implements ConnectionFactory
+class DriverManagerConnectionFactory implements ConnectionFactory
+
+interface PooledObjectFactory{
+    PooledObject<T> makeObject()
+    void destroyObject(PooledObject<T> var1)
+}
+
+class PoolableConnectionFactory implements PooledObjectFactory{
+ConnectionFactory _connFactory
+ConnectionFactory getConnectionFactory()
+}
+
+class PoolableManagedConnectionFactory extends PoolableConnectionFactory
+
+PoolableConnectionFactory *--left--> ConnectionFactory
+
+class BasicDataSource{
+DataSource createDataSource()
+}
+BasicDataSource o--down--> PoolableConnectionFactory
+BasicDataSource o--down--> DriverConnectionFactory
+
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractWindow{
+  AbstractWindowImp abstractWindowImp
+  {abstract}drawText()
+  {abstract}drawRect()
+}
+
+AbstractWindow o--right--> AbstractWindowImp
+
+class IconWindow extends AbstractWindow
+class TransientWindow extends AbstractWindow
+
+interface AbstractWindowImp{
+  {abstract}devDrawText()
+  {abstract}devDrawLine()
+}
+
+class XWindowImp extends AbstractWindowImp
+class PMWindowImp extends AbstractWindowImp
+
+class WindowSystemFactory{
+ AbstractWindowImp makeWindowImp()
+}
+@enduml

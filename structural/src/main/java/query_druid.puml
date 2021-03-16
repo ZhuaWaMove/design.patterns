@@ -1,0 +1,72 @@
+@startuml
+
+interface EpccDataQueryService{
+ Result query(UniversalQueryModel request)
+}
+
+abstract class AbstractDataQueryService implements EpccDataQueryService{
+  +chooseQueryDsl(String templateName,
+  Map templateVal, List<BizReqDTO> queryBody);
+}
+
+note right of AbstractDataQueryService::chooseQueryDsl
+1.获取集群类型
+2.获取对应处理类
+3.添加模板变量
+4.加载dsl
+end note
+
+class BizStatisticService extends AbstractDataQueryService{
+     Result query(UniversalQueryModel request)
+}
+note "日交易量" as N1
+BizStatisticService .. N1
+
+class BusinessQueryServiceImpl extends AbstractDataQueryService{
+     Result query(UniversalQueryModel request)
+}
+
+'note right of BusinessQueryServiceImpl
+'业务监控大屏
+'end note
+note "业务监控大屏" as N2
+BusinessQueryServiceImpl .. N2
+
+'BusinessQueryServiceImpl o--left--> BusinessQueryHelper
+AbstractDataQueryService *--left--> BusinessQueryHelper
+class BizMonitorBtQueryService extends AbstractDataQueryService{
+    Result query(UniversalQueryModel request)
+}
+
+'note right of BizMonitorBtQueryService
+'
+'end note
+note "安全态势，联合运维故障推送" as N3
+BizMonitorBtQueryService .. N3
+
+class BizMonitorQueryService extends AbstractDataQueryService{
+    Result query(UniversalQueryModel request)
+}
+'note right of BizMonitorQueryService
+'互联互通
+'end note
+note "互联互通" as N4
+BizMonitorQueryService .. N4
+
+abstract class BusinessQueryHelper{
+  +addTemplateVal(String templateName,
+  Map map, List<BizReqDTO> queryBody)
+  {abstract} loadDsl(List<BizReqDTO> queryBody)
+}
+
+
+class BusinessQueryEs extends BusinessQueryHelper{
+'  +parseTemplateVal(UniversalQueryModel request);
+  +loadDsl(List<BizReqDTO> queryBody);
+}
+
+class BusinessQueryDruid extends BusinessQueryHelper{
+'  +parseTemplateVal(UniversalQueryModel request)
+  +loadDsl(List<BizReqDTO> queryBody)
+}
+@enduml

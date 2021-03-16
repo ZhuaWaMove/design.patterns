@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface DimensionalAnalysis{
+ {abstract} instCodeAnalysis(Map map)
+ {abstract} dimensionAnalysis(Map map)
+ {abstract} targetAnalysis(Map map)
+}
+
+abstract AbstractDimensionalAnalysis implements DimensionalAnalysis
+
+class  InstitutionDimensionalAnalysis extends AbstractDimensionalAnalysis
+class  BankDimensionalAnalysis extends AbstractDimensionalAnalysis
+class  PlatformInstitutionDimensionalAnalysis extends AbstractDimensionalAnalysis
+
+'AbstractDimensionalAnalysis *--right--> DimensionalAnalysis
+
+abstract AbstractFactory
+
+class InstitutionDimensionalAnalysisFactory extends AbstractFactory
+class BankDimensionalAnalysisFactory  extends AbstractFactory
+class PlatformInstitutionDimensionalAnalysisFactory  extends AbstractFactory
+
+InstitutionDimensionalAnalysisFactory *--down--> InstitutionDimensionalAnalysis
+BankDimensionalAnalysisFactory *--down--> BankDimensionalAnalysis
+PlatformInstitutionDimensionalAnalysisFactory *--down--> PlatformInstitutionDimensionalAnalysis
+
+
+@enduml
